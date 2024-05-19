@@ -7,6 +7,7 @@ Files with `.lang` extensions are Custom scripting language files.
 ## Topics
 
 - Lexer
+- AST Definitions
 
 ## Scripts
 
