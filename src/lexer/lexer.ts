@@ -1,12 +1,17 @@
-import { KEYWORDS, Token, TokenType } from './lexer.interface'
+import { KEYWORDS, IToken, TokenType } from './lexer.interface'
 
+/**
+ * Lexer Object
+ */
 export class Lexer {
   /**
-   * Tokenize function
+   * tokenizer fnc
    * @param sourceCode - source code string
+   * @returns tokens array
    */
-  public tokenize(sourceCode: string): Token[] {
-    const tokens = new Array<Token>()
+  public tokenize(sourceCode: string): IToken[] {
+    /** tokens to store splited source code strings */
+    const tokens = new Array<IToken>()
     const src: string[] = sourceCode.split('')
 
     // build each token until end of file
@@ -49,11 +54,11 @@ export class Lexer {
         }
       }
     }
-
+    tokens.push({ value: 'EndOfFile', type: TokenType.EOF })
     return tokens
   }
 
-  private token(value: string = '', type: TokenType): Token {
+  private token(value: string = '', type: TokenType): IToken {
     return { value, type }
   }
 

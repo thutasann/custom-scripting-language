@@ -1,6 +1,6 @@
 /** Abstract Syntax Tree Node Types (Expressions)
  * @description
- * - expressionis not a statement
+ * - expression is not a statement
  * - expression example -> 5 * 10
  * - assignment expression example -> x = 45
  * - statements will not return a value
@@ -8,18 +8,20 @@
  */
 export type NodeType = 'Program' | 'NumericLiteral' | 'Identifier' | 'BinaryExpr'
 
-/** Abstract Statement Interface */
+/** Abstract Statement Interface that include statement kind */
 export interface IStatement {
   kind: NodeType
 }
 
 /** Program Node Type */
 export interface IProgram extends IStatement {
+  /** kind of the program */
   kind: 'Program'
+  /** array of the statements */
   body: IStatement[]
 }
 
-/** Expression interface */
+/** Expression interface*/
 export interface IExpression extends IStatement {}
 
 /** Binary Expression Node Type

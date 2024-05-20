@@ -1,1 +1,90 @@
-{}
+{
+  "vscode_custom_css.imports": [
+    "file:///Users/thutasann/.vscode/extensions/codevars.outrun-meets-synthwave-0.0.1/synthWaveStyles.css"
+  ],
+  "eslint.workingDirectories": [{ "mode": "auto" }],
+  "editor.fontLigatures": true,
+  "workbench.tree.indent": 20,
+  "editor.fontSize": 13,
+  "editor.fontFamily": "\"Fira Code\",\"mononoki Nerd Font\", Menlo, Monaco, 'Courier New', monospace",
+  "editor.cursorSmoothCaretAnimation": "on",
+  "editor.cursorBlinking": "expand",
+  "editor.lineHeight": 2,
+  "editor.fontWeight": "normal",
+  "editor.cursorStyle": "block-outline",
+  "terminal.external.linuxExec": "iterm",
+  "terminal.integrated.fontSize": 14,
+  "workbench.iconTheme": "bearded-icons",
+  "editor.wordWrap": "on",
+  "prettier.configPath": ".prettierrc",
+  "editor.formatOnSave": true,
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "reactSnippets.settings.prettierEnabled": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "never"
+  },
+  "eslint.options": {
+    "extensions": [".js", ".jsx", ".md", ".mdx", ".ts", ".tsx"]
+  },
+  "eslint.validate": ["markdown", "mdx", "javascript", "javascriptreact", "typescript", "typescriptreact"],
+  "files.associations": {
+    "*.mdx": "mdx",
+    "*.jade": "jade"
+  },
+  "redhat.telemetry.enabled": true,
+  "security.workspace.trust.untrustedFiles": "open",
+  "css.lint.unknownAtRules": "ignore",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "typescript.tsdk": "./node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "git.enableSmartCommit": true,
+  "git.confirmSync": false,
+  "typescript.updateImportsOnFileMove.enabled": "never",
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact"
+  },
+  "[source.css.styled]": {
+    "editor.tabSize": 2,
+    "editor.wordWrap": "on",
+    "editor.autoClosingBrackets": "always",
+    "editor.autoClosingQuotes": "always"
+  },
+  "editor.quickSuggestions": {
+    "other": true,
+    "comments": false,
+    "strings": true
+  },
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "liveshare.accessibility.soundsEnabled": true,
+  "extensions.autoUpdate": "onlySelectedExtensions",
+  "angular.experimental-ivy": true,
+  "angular.forceStrictTemplates": true,
+  "editor.unicodeHighlight.invisibleCharacters": false,
+  "editor.unicodeHighlight.ambiguousCharacters": false,
+  "svg.preview.boundingBox": true,
+  "svg.preview.transparencyGrid": true,
+  "go.toolsManagement.autoUpdate": true,
+  "git.openRepositoryInParentFolders": "always",
+  "nxConsole.showNodeVersionOnStartup": false,
+  "editor.largeFileOptimizations": false,
+  "prettier.documentSelectors": [".cs"],
+  "gitlens.graph.minimap.enabled": false,
+  "[csharp]": {
+    "editor.defaultFormatter": "ms-dotnettools.csharp"
+  },
+  "editor.minimap.renderCharacters": false,
+  "workbench.colorTheme": "Outrun Electric Meets Synthwave",
+  "workbench.tree.enableStickyScroll": false,
+  "editor.stickyScroll.enabled": true,
+  "workbench.editorAssociations": {
+    "*.dll": "default"
+  }
+}

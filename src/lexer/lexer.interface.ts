@@ -19,12 +19,14 @@ export enum TokenType {
   BinaryOperator,
   /** let to declare variable */
   Let,
+  /** signified the end of file */
+  EOF,
 }
 
 /**
  * Token interface that include value and TokenType
  */
-export interface Token {
+export interface IToken {
   value: string
   type: TokenType
 }
