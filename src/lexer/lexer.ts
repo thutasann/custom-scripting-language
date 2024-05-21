@@ -54,6 +54,7 @@ export class Lexer {
         }
       }
     }
+
     tokens.push({ value: 'EndOfFile', type: TokenType.EOF })
     return tokens
   }

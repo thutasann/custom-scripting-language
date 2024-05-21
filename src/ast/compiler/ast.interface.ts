@@ -13,7 +13,7 @@ export interface IStatement {
   kind: NodeType
 }
 
-/** Program Node Type */
+/** Program Node Type that include `kind` and body of the `statements` */
 export interface IProgram extends IStatement {
   /** kind of the program */
   kind: 'Program'
