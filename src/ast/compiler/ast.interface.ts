@@ -21,7 +21,7 @@ export interface IProgram extends IStatement {
   body: IStatement[]
 }
 
-/** Expression interface*/
+/** Expression interface that extends `IStatement` */
 export interface IExpression extends IStatement {}
 
 /** Binary Expression Node Type

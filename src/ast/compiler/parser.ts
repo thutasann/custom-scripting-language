@@ -26,7 +26,6 @@ export class Parser {
   public produceAST(sourceCode: string): IProgram {
     const _lexer = new Lexer()
     this.tokens = _lexer.tokenize(sourceCode)
-    Logger.log('tokens -> ', this.tokens)
 
     const program: IProgram = {
       kind: 'Program',
@@ -43,16 +42,62 @@ export class Parser {
 
   /** entry point of the parser*/
   private parseSTMT(): IStatement {
-    // skip to parseExpr
     return this.parseExpr()
   }
 
   /** parse expression */
   private parseExpr(): IExpression {
-    return this.parsePrimaryExpr()
+    return this.parseAdditiveExpr()
   }
 
-  /** parse primary expressions */
+  /** parse additive expression
+   * @description <br/>
+   * - Additive Expression has left <-> hand presidence
+   * @example
+   * - (10 + 5) - 5
+   * - (10 + (10 - fooBar)) - 5
+   * - 10 + 5 * 3
+   * - wrap with additive expression with `()`
+   */
+  private parseAdditiveExpr(): IExpression {
+    let left = this.parseMultiplicitaveExpr()
+
+    while (this.at().value == '+' || this.at().value == '-') {
+      const operator = this.eat().value
+      const right = this.parseMultiplicitaveExpr()
+      left = {
+        kind: 'BinaryExpr',
+        left,
+        right,
+        operator,
+      } as IBinaryExpression
+    }
+
+    return left
+  }
+
+  /** parse multiplicative expression
+   * @description  parse `*`, `/` and `%`
+   */
+  private parseMultiplicitaveExpr(): IExpression {
+    let left = this.parsePrimaryExpr()
+    while (this.at().value == '*' || this.at().value == '/' || this.at().value == '%') {
+      const operator = this.eat().value
+      const right = this.parseMultiplicitaveExpr()
+      left = {
+        kind: 'BinaryExpr',
+        left,
+        right,
+        operator,
+      } as IBinaryExpression
+    }
+
+    return left
+  }
+
+  /** ### primary parse expressions fnc
+   * @description this is the primary fnc of parse expression
+   */
   private parsePrimaryExpr(): IExpression {
     const tokenType = this.at().type
 
@@ -61,6 +106,14 @@ export class Parser {
         return { kind: 'Identifier', symbol: this.eat().value } as IIdentifierExpression
       case TokenType.Number:
         return { kind: 'NumericLiteral', value: parseFloat(this.eat().value) } as INumericLiteral
+      case TokenType.OpenParen:
+        this.eat() // eat open paren
+        const value = this.parseExpr()
+        this.expect(
+          TokenType.CloseParen,
+          'Unexpected token found inside parenthesised expression. Expected closing parenthesis',
+        ) // eat close paren
+        return value
       default:
         console.error('Unexpected token found during parsing :', this.at())
         process.exit(1)
@@ -70,6 +123,17 @@ export class Parser {
   /** fnc to return tokens index position */
   private at(): IToken {
     return this.tokens[0]
+  }
+
+  /** expect fnc */
+  private expect(type: TokenType, err: any): IToken {
+    const prev = this.tokens.shift() as IToken
+    if (!prev || prev.type == type) {
+      Logger.error('Parse Error:\n', err, prev, ' - Expecting: ', type)
+      process.exit(1)
+    }
+
+    return prev
   }
 
   /** check token is EOF or not */
@@ -83,3 +147,18 @@ export class Parser {
     return prev as IToken
   }
 }
+
+/**
+ * ## Orders of Prescidence
+ * - AssignmentExpr
+ * - MemberExpr
+ * - FunctionCall
+ * - LogicalExpr
+ * - ComparisionExpr
+ * - AdditiveExpr ✅
+ * - MultiplicationExpr
+ * - UnaryExpr
+ * - PrimaryExpr
+ * @description This is just the Note
+ */
+class OrdersOfPrescidence {}
