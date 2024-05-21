@@ -12,7 +12,7 @@ This is the repo where Custom Scripting language is created from scratch with ty
 
 ```bash
 cd <folder>
-ts-node <file>.test.ts
+npx tsx <file>.test.ts
 ```
 
 ## Sources

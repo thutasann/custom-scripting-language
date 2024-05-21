@@ -1,3 +1,4 @@
+import chalk from 'chalk';
 import { basename } from 'path'
 
 interface IGetLogDetails {
@@ -10,22 +11,23 @@ interface IGetLogDetails {
  * Custom Logger class
  */
 export abstract class Logger {
-  public static log(...args: any[]): void {
-    const { fileName, lineNumber, columnNumber } = this.getLogDetails()
-    const logMessage = `[${fileName}:${lineNumber}:${columnNumber}]`
-    console.log(logMessage, ...args)
+
+  public static info(...args: any[]) {
+    Logger.log(chalk.blue, '[INFO]', ...args);
   }
 
-  public static info(...args: any[]): void {
-    Logger.log(['INFO', ...args])
+  public static warn(...args: any[]) {
+    Logger.log(chalk.yellow, '[WARN]', ...args);
   }
 
-  static warn(...args: any[]) {
-    Logger.log('[WARN]', ...args)
+  public static error(...args: any[]) {
+    Logger.log(chalk.red, '[ERROR]', ...args);
   }
 
-  static error(...args: any[]) {
-    Logger.log('[ERROR]', ...args)
+  private static log(colorFn: any, label: string, ...args: any[]) {
+    const { fileName, lineNumber, columnNumber } = Logger.getLogDetails();
+    const logMessage = colorFn(`[${fileName}:${lineNumber}:${columnNumber}] ${label}`);
+    console.log(logMessage, ...args.map(arg => (typeof arg === 'object' ? JSON.stringify(arg, null, 2) : colorFn(arg))));
   }
 
   private static getLogDetails(): IGetLogDetails {

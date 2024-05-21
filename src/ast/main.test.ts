@@ -10,7 +10,7 @@ const r1 = readline.createInterface({
 /** test parser */
 ;(async function repl() {
   const parser = new Parser()
-  Logger.log('Repl v0.1')
+  Logger.info('Repl v0.1')
 
   r1.question('> ', (input) => {
     if (!input || input.includes('exit')) {
@@ -18,7 +18,7 @@ const r1 = readline.createInterface({
     }
 
     const program = parser.produceAST(input)
-    Logger.log('Program --> ', program)
+    Logger.info('Program --> ', program)
 
     r1.close()
   })

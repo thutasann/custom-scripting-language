@@ -7,6 +7,6 @@ import fs from 'fs'
   const lexer = new Lexer()
   const source = fs.readFileSync('./lexer.lang')
   for (const token of lexer.tokenize(source.toString())) {
-    Logger.log('token ==> ', token)
+    Logger.info('token ==> ', token)
   }
 })()
