@@ -1,5 +1,6 @@
 import { Parser } from './compiler/parser'
 import readline from 'readline'
+import { Logger } from '../utils/logger'
 
 const r1 = readline.createInterface({
   input: process.stdin,
@@ -9,7 +10,7 @@ const r1 = readline.createInterface({
 /** test parser */
 ;(async function repl() {
   const parser = new Parser()
-  console.log('\nRepl v0.1')
+  Logger.info('\nRepl v0.1')
 
   r1.question('> ', (input) => {
     if (!input || input.includes('exit')) {
@@ -17,7 +18,7 @@ const r1 = readline.createInterface({
     }
 
     const program = parser.produceAST(input)
-    console.log('Program --> ', program)
+    Logger.log('Program --> ', program)
 
     r1.close()
   })

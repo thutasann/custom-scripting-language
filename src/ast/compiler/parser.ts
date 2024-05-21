@@ -1,5 +1,6 @@
 import { Lexer } from '../../lexer/lexer'
 import { IToken, TokenType } from '../../lexer/lexer.interface'
+import { Logger } from '../../utils/logger'
 import {
   IStatement,
   IProgram,
@@ -25,7 +26,7 @@ export class Parser {
   public produceAST(sourceCode: string): IProgram {
     const _lexer = new Lexer()
     this.tokens = _lexer.tokenize(sourceCode)
-    console.log('tokens -> ', this.tokens)
+    Logger.log('tokens -> ', this.tokens)
 
     const program: IProgram = {
       kind: 'Program',

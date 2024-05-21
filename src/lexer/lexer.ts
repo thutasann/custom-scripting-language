@@ -1,3 +1,4 @@
+import { Logger } from '../utils/logger'
 import { KEYWORDS, IToken, TokenType } from './lexer.interface'
 
 /**
@@ -49,7 +50,7 @@ export class Lexer {
         } else if (this.isSkippable(src[0])) {
           src.shift() // skip the current character
         } else {
-          console.log('Unrecognized character found in source : ', src[0])
+          Logger.error('Unrecognized character found in source : ', src[0])
           process.exit(1)
         }
       }
