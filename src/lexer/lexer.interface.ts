@@ -5,20 +5,25 @@
  * [letToken, IdentifierToken, EqualsToken, NumberToken]
  */
 export enum TokenType {
+  //? ------ literal types
   /** number */
   Number,
   /** identifier */
   Identifier,
+
+  //? ------ Keywords
+  /** let to declare variable */
+  Let,
+
+  //? ------ Grouping * Operators
+  /** binary operator */
+  BinaryOperator,
   /** equal */
   Equals,
   /** open parenthesis */
   OpenParen,
   /** close parenthesis */
   CloseParen,
-  /** binary operator */
-  BinaryOperator,
-  /** let to declare variable */
-  Let,
   /** signified the end of file */
   EOF,
 }
