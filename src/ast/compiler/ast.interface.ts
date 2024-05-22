@@ -8,7 +8,11 @@
  */
 export type NodeType = 'Program' | 'NumericLiteral' | 'NullLiteral' | 'Identifier' | 'BinaryExpr'
 
-/** Abstract Statement Interface that include statement kind */
+/** Abstract Statement Interface that include statement kind
+ * @description
+ * - IStatement -> IProgram
+ * - IStatement -> IExpression
+ */
 export interface IStatement {
   kind: NodeType
 }

@@ -1,7 +1,7 @@
 // values are going to define the types
 // that we're going to be using for our runtime
 
-import { IStatement } from '../../ast/compiler/ast.interface'
+import { IBinaryExpression, IProgram, IStatement } from '../../ast/compiler/ast.interface'
 
 /** value types (null and number)
  * @description

@@ -23,8 +23,6 @@ const r1 = readline.createInterface({
     const interpretedResult = Interpreter.evaluate(program)
     Logger.info('interpretedResult -> ', interpretedResult)
 
-    console.log('-----\n\n')
-
     r1.close()
   })
 })()

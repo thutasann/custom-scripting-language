@@ -119,7 +119,7 @@ export class Parser {
         ) // eat close paren
         return value
       default:
-        console.error('Unexpected token found during parsing :', this.at())
+        Logger.error('Unexpected token found during parsing :', this.at())
         process.exit(1)
     }
   }
