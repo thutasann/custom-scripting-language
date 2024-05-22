@@ -1,0 +1,17 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build TypeScript",
+      "type": "shell",
+      "command": "yarn",
+      "args": ["build"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": ["$tsc"],
+      "detail": "This task runs the TypeScript compiler using Yarn."
+    }
+  ]
+}
