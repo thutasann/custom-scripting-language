@@ -6,6 +6,8 @@
  */
 export enum TokenType {
   //? ------ literal types
+  /** Null Type that is undefined in javascript */
+  Null,
   /** number */
   Number,
   /** identifier */
@@ -39,4 +41,5 @@ export interface IToken {
 /** Reserved Keywords */
 export const KEYWORDS: Record<string, TokenType> = {
   let: TokenType.Let,
+  null: TokenType.Null,
 }

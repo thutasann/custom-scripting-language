@@ -1,4 +1,4 @@
-import chalk from 'chalk';
+import chalk, { type ChalkInstance} from 'chalk';
 import { basename } from 'path'
 
 interface IGetLogDetails {
@@ -24,7 +24,7 @@ export abstract class Logger {
     Logger.log(chalk.red, '[ERROR]', ...args);
   }
 
-  private static log(colorFn: any, label: string, ...args: any[]) {
+  private static log(colorFn: ChalkInstance, label: string, ...args: any[]) {
     const { fileName, lineNumber, columnNumber } = Logger.getLogDetails();
     const logMessage = colorFn(`[${fileName}:${lineNumber}:${columnNumber}] ${label}`);
     console.log(logMessage, ...args.map(arg => (typeof arg === 'object' ? JSON.stringify(arg, null, 2) : colorFn(arg))));

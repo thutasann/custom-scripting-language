@@ -42,7 +42,8 @@ export class Lexer {
 
           // check for reserved keywords
           const reserved = KEYWORDS[ident]
-          if (reserved === undefined) {
+          // if value is not undefined, the identifier is recognized keyword
+          if (typeof reserved == 'number') {
             tokens.push(this.token(ident, TokenType.Identifier))
           } else {
             tokens.push(this.token(ident, reserved))
