@@ -44,9 +44,9 @@ export class Lexer {
           const reserved = KEYWORDS[ident]
           // if value is not undefined, the identifier is recognized keyword
           if (typeof reserved == 'number') {
-            tokens.push(this.token(ident, TokenType.Identifier))
-          } else {
             tokens.push(this.token(ident, reserved))
+          } else {
+            tokens.push(this.token(ident, TokenType.Identifier))
           }
         } else if (this.isSkippable(src[0])) {
           src.shift() // skip the current character

@@ -8,6 +8,7 @@ import {
   IBinaryExpression,
   INumericLiteral,
   IIdentifierExpression,
+  INullLiteral,
 } from './ast.interface'
 
 /**
@@ -104,6 +105,9 @@ export class Parser {
     switch (tokenType) {
       case TokenType.Identifier:
         return { kind: 'Identifier', symbol: this.eat().value } as IIdentifierExpression
+      case TokenType.Null:
+        this.eat() // advance past null keyword
+        return { kind: 'NullLiteral', value: 'null' } as INullLiteral
       case TokenType.Number:
         return { kind: 'NumericLiteral', value: parseFloat(this.eat().value) } as INumericLiteral
       case TokenType.OpenParen:
@@ -111,7 +115,7 @@ export class Parser {
         const value = this.parseExpr()
         this.expect(
           TokenType.CloseParen,
-          'Unexpected token found inside parenthesised expression. Expected closing parenthesis',
+          'Unexpected token found inside parenthesised expression. Expected closing parenthesis'
         ) // eat close paren
         return value
       default:
