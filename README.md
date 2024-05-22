@@ -7,6 +7,7 @@ This is the repo where Custom Scripting language is created from scratch with ty
 - Lexer
 - AST Definitions
 - Parser
+- Interpreter
 
 ## Scripts
 
@@ -18,3 +19,4 @@ npx tsx <file>.test.ts
 ## Sources
 
 - https://astexplorer.net/
+- https://www.toppr.com/guides/computer-science/computer-fundamentals/system-software/interpreter/
