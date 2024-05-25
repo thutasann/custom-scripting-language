@@ -8,6 +8,7 @@ This is the repo where Custom Scripting language is created from scratch with ty
 - AST Definitions
 - Parser
 - Interpreter
+- Enviornment & Variable Storage
 
 ## Scripts
 

@@ -9,7 +9,7 @@ import { IBinaryExpression, IProgram, IStatement } from '../../ast/compiler/ast.
  */
 export type ValueTypes = 'null' | 'number'
 
-/** base runtime interface */
+/** base runtime interface that include value type */
 export interface IRunTimeVal {
   type: ValueTypes
 }
