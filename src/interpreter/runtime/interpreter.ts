@@ -1,4 +1,4 @@
-import { IRunTimeVal, INullVal, INumberVal } from './values.interface'
+import { IRunTimeVal, INumberVal, makeNull } from './values.interface'
 import {
   IStatement,
   INumericLiteral,
@@ -27,8 +27,6 @@ export abstract class Interpreter {
           type: 'number',
           value: (astNode as INumericLiteral).value,
         } as INumberVal
-      case 'NullLiteral':
-        return { type: 'null', value: 'null' } as INullVal
       case 'Identifier':
         return this.evaluateIdentifier(astNode as IIdentifierExpression, env)
       case 'BinaryExpr':
@@ -65,7 +63,7 @@ export abstract class Interpreter {
     }
 
     // when one or both are `null`
-    return { type: 'null', value: 'null' } as INullVal
+    return makeNull()
   }
 
   /**
@@ -102,8 +100,7 @@ export abstract class Interpreter {
    * - evaluating a program from top to bottom
    */
   private static evaluateProgram(program: IProgram, env: Enviornment): IRunTimeVal {
-    let lastEvaluated: IRunTimeVal = { type: 'null', value: 'null' } as INullVal
-
+    let lastEvaluated: IRunTimeVal = makeNull()
     for (const statement of program.body) {
       lastEvaluated = this.evaluate(statement, env)
     }

@@ -3,7 +3,7 @@ import { Parser } from '../ast/compiler/parser'
 import Enviornment from '../environment/environement'
 import { Logger } from '../utils/logger'
 import { Interpreter } from './runtime/interpreter'
-import { INumberVal } from './runtime/values.interface'
+import { makeBool, makeNull, makeNumber } from './runtime/values.interface'
 
 const r1 = readline.createInterface({
   input: process.stdin,
@@ -14,8 +14,12 @@ const r1 = readline.createInterface({
 ;(async function repl() {
   const parser = new Parser()
 
+  // define variables in  environment
   const env = new Enviornment()
-  env.declareVar('x', { value: 100, type: 'number' } as INumberVal) // define variable `x` in our environment
+  env.declareVar('x', makeNumber(100))
+  env.declareVar('true', makeBool(true))
+  env.declareVar('false', makeBool(false))
+  env.declareVar('null', makeNull())
 
   Logger.info('Repl v0.1')
 

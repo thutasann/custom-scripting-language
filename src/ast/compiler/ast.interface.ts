@@ -6,7 +6,7 @@
  * - statements will not return a value
  * - statement example -> let x = 45
  */
-export type NodeType = 'Program' | 'NumericLiteral' | 'NullLiteral' | 'Identifier' | 'BinaryExpr'
+export type NodeType = 'Program' | 'NumericLiteral' | 'Identifier' | 'BinaryExpr'
 
 /** Abstract Statement Interface that include statement kind
  * @description
@@ -54,10 +54,4 @@ export interface IIdentifierExpression extends IExpression {
 export interface INumericLiteral extends IExpression {
   kind: 'NumericLiteral'
   value: number
-}
-
-/** Null Literal Expression Node Type */
-export interface INullLiteral extends IExpression {
-  kind: 'NullLiteral'
-  value: 'null'
 }
