@@ -1,4 +1,5 @@
-/** Abstract Syntax Tree Node Types (Expressions)
+/** ## Abstract Syntax Tree Node Types
+ * ### Defines the structure of our language AST
  * @description
  * - expression is not a statement
  * - expression example -> 5 * 10
@@ -6,7 +7,14 @@
  * - statements will not return a value
  * - statement example -> let x = 45
  */
-export type NodeType = 'Program' | 'NumericLiteral' | 'Identifier' | 'BinaryExpr'
+export type NodeType =
+  // STATEMENTS
+  | 'Program'
+  | 'VarDeclaration'
+  // EXPRESSIONS
+  | 'NumericLiteral'
+  | 'Identifier'
+  | 'BinaryExpr'
 
 /** Abstract Statement Interface that include statement kind
  * @description
@@ -23,6 +31,17 @@ export interface IProgram extends IStatement {
   kind: 'Program'
   /** array of the statements */
   body: IStatement[]
+}
+
+/** Variable Declaration Node Type
+ * @example
+ * let x; // x is undefined
+ */
+export interface IVarDeclaration extends IStatement {
+  kind: 'VarDeclaration'
+  constant: boolean
+  identifier: string
+  value?: IExpression
 }
 
 /** Expression interface that extends `IStatement` */

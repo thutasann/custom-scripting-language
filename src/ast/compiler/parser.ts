@@ -8,6 +8,7 @@ import {
   IBinaryExpression,
   INumericLiteral,
   IIdentifierExpression,
+  IVarDeclaration,
 } from './ast.interface'
 
 /**
@@ -42,15 +43,58 @@ export class Parser {
 
   /** entry point of the parser*/
   private parseSTMT(): IStatement {
-    return this.parseExpr()
+    switch (this.at().type) {
+      case TokenType.Let:
+      case TokenType.Const:
+        return this.parseVarDeclaration()
+      default:
+        return this.parseExpr()
+    }
   }
 
-  /** parse expression */
+  /** parse variable declaration
+   * @example
+   * - LET IDENTIFIER;
+   * - ( LET | CONST ) IDENTIFIER = EXPR;
+   */
+  private parseVarDeclaration(): IStatement {
+    const isConstant = this.eat().type == TokenType.Const
+    const identifier = this.expect(
+      TokenType.Identifier,
+      'Expected identifier name following let | const keywords'
+    ).value
+
+    if (this.at().type == TokenType.Semicolon) {
+      this.eat() // expect semicolon
+      if (isConstant) {
+        throw 'Must assign value to constant expression, no value provided.'
+      }
+      return {
+        kind: 'VarDeclaration',
+        identifier,
+        constant: false,
+      } as IVarDeclaration
+    }
+
+    this.expect(TokenType.Equals, 'Expected equals token following identifier in var declaration. ')
+
+    const declaration = {
+      kind: 'VarDeclaration',
+      value: this.parseExpr(),
+      constant: isConstant,
+    } as IVarDeclaration
+
+    this.expect(TokenType.Semicolon, 'Variable declaration statement must end with semicolon.') // force end with semicolon
+
+    return declaration
+  }
+
+  /** ## parse expression */
   private parseExpr(): IExpression {
     return this.parseAdditiveExpr()
   }
 
-  /** parse additive expression
+  /** ### parse additive expression
    * @description <br/>
    * - Additive Expression has left <-> hand presidence
    * @example
@@ -76,7 +120,7 @@ export class Parser {
     return left
   }
 
-  /** parse multiplicative expression
+  /** ### parse multiplicative expression
    * @description  parse `*`, `/` and `%`
    */
   private parseMultiplicitaveExpr(): IExpression {
@@ -120,8 +164,8 @@ export class Parser {
     }
   }
 
-  /** fnc to return tokens index position */
   private at(): IToken {
+    /** fnc to return tokens index position */
     return this.tokens[0]
   }
 
@@ -136,15 +180,15 @@ export class Parser {
     return prev
   }
 
-  /** check token is EOF or not */
-  private notEOF(): boolean {
-    return this.tokens[0].type !== TokenType.EOF
-  }
-
   /** shift the token */
   private eat(): IToken {
     const prev = this.tokens.shift()
     return prev as IToken
+  }
+
+  /** check token is EOF or not */
+  private notEOF(): boolean {
+    return this.tokens[0].type !== TokenType.EOF
   }
 }
 

@@ -25,6 +25,8 @@ export class Lexer {
         tokens.push(this.token(src.shift(), TokenType.BinaryOperator))
       } else if (src[0] == '=') {
         tokens.push(this.token(src.shift(), TokenType.Equals))
+      } else if (src[0] == ';') {
+        tokens.push(this.token(src.shift(), TokenType.Semicolon))
       } else {
         // handling multi character tokens
         if (this.isInt(src[0])) {
@@ -35,7 +37,7 @@ export class Lexer {
 
           tokens.push(this.token(num, TokenType.Number))
         } else if (this.isAlpha(src[0])) {
-          let ident = '' // foo let
+          let ident = '' // foo let (identifier)
           while (src.length > 0 && this.isAlpha(src[0])) {
             ident += src.shift()
           }
