@@ -1,4 +1,5 @@
 import { IRunTimeVal } from '../interpreter/runtime/values.interface'
+import { Logger } from '../utils/logger'
 
 /**
  * ## Envrionment
@@ -8,24 +9,30 @@ import { IRunTimeVal } from '../interpreter/runtime/values.interface'
 export default class Enviornment {
   private _parent?: Enviornment
   private _variables: Map<string, IRunTimeVal>
+  private _constatnts: Set<string>
 
   constructor(parent?: Enviornment) {
     this._parent = parent
     this._variables = new Map()
+    this._constatnts = new Set()
   }
 
   /**
    * Declare variable
    * @param varname - variable name
    * @param value - runtime value
+   * @param constant - constant check
    * @returns runtime value
    */
-  public declareVar(varname: string, value: IRunTimeVal): IRunTimeVal {
+  public declareVar(varname: string, value: IRunTimeVal, constant?: boolean): IRunTimeVal {
     if (this._variables.has(varname)) {
       throw `Cannot declare variable ${varname} as its already defined`
     }
 
     this._variables.set(varname, value)
+    if (constant) {
+      this._constatnts.add(varname)
+    }
     return value
   }
 
@@ -36,6 +43,12 @@ export default class Enviornment {
    */
   public assignVar(varname: string, value: IRunTimeVal): IRunTimeVal {
     const env = this.resolve(varname)
+
+    // cannot assign to constant
+    if (env._constatnts.has(varname)) {
+      throw `Cannot reassign to variable ${varname} as it was declared as constant`
+    }
+
     env._variables.set(varname, value)
     return value
   }

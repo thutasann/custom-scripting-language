@@ -12,14 +12,24 @@ const r1 = readline.createInterface({
   const parser = new Parser()
   Logger.info('Repl v0.1')
 
-  r1.question('> ', (input) => {
-    if (!input || input.includes('exit')) {
-      process.exit(1)
-    }
+  const prompt = () => {
+    r1.question('> ', (input) => {
+      if (!input || input.includes('exit')) {
+        Logger.info('Exiting REPL...')
+        r1.close()
+        process.exit(0)
+      }
 
-    const program = parser.produceAST(input)
-    Logger.info('Program --> ', program)
+      try {
+        const program = parser.produceAST(input)
+        Logger.info('Program --> ', program)
+      } catch (error) {
+        Logger.error('Error parsing input: ', error)
+      }
 
-    r1.close()
-  })
+      prompt() // Continue the REPL loop
+    })
+  }
+
+  prompt() // Start the REPL loop
 })()

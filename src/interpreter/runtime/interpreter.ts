@@ -5,6 +5,7 @@ import {
   IBinaryExpression,
   IProgram,
   IIdentifierExpression,
+  IVarDeclaration,
 } from '../../ast/compiler/ast.interface'
 import { Logger } from '../../utils/logger'
 import Enviornment from '../../environment/environement'
@@ -33,10 +34,20 @@ export abstract class Interpreter {
         return this.evaluateBinaryExpr(astNode as IBinaryExpression, env)
       case 'Program':
         return this.evaluateProgram(astNode as IProgram, env)
+      case 'VarDeclaration':
+        return this.evaluateVarDeclaration(astNode as IVarDeclaration, env)
       default:
         Logger.error('This AST Node has not yet been setup for interpretation.', astNode)
         process.exit(0)
     }
+  }
+
+  /**
+   * ### Evaluate Var Declaration
+   */
+  private static evaluateVarDeclaration(declaration: IVarDeclaration, env: Enviornment): IRunTimeVal {
+    const value = declaration.value ? this.evaluate(declaration.value, env) : makeNull()
+    return env.declareVar(declaration.identifier, value, declaration.constant)
   }
 
   /**

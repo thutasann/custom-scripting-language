@@ -27,7 +27,6 @@ export class Parser {
   public produceAST(sourceCode: string): IProgram {
     const _lexer = new Lexer()
     this.tokens = _lexer.tokenize(sourceCode)
-    console.log('this.tokens', this.tokens)
 
     const program: IProgram = {
       kind: 'Program',
