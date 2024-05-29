@@ -1,8 +1,6 @@
 // values are going to define the types
 // that we're going to be using for our runtime
 
-import { IBinaryExpression, IProgram, IStatement } from '../../ast/compiler/ast.interface'
-
 /** value types (null and number)
  * @description
  * - in the future, we will define custom user-defined functions objects booleans and strings

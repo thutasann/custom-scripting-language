@@ -17,43 +17,54 @@ export class Lexer {
 
     // build each token until end of file
     while (src.length > 0) {
+      // BEGIN PARSING ONE CHARACTER TOKENS
       if (src[0] == '(') {
         tokens.push(this.token(src.shift(), TokenType.OpenParen))
       } else if (src[0] == ')') {
         tokens.push(this.token(src.shift(), TokenType.CloseParen))
-      } else if (src[0] == '+' || src[0] == '-' || src[0] == '*' || src[0] == '/' || src[0] == '%') {
+      } // HANDLE BINARY OPERATORS
+      else if (src[0] == '+' || src[0] == '-' || src[0] == '*' || src[0] == '/' || src[0] == '%') {
         tokens.push(this.token(src.shift(), TokenType.BinaryOperator))
-      } else if (src[0] == '=') {
+      } // Handle Conditional & Assignment Tokens
+      else if (src[0] == '=') {
         tokens.push(this.token(src.shift(), TokenType.Equals))
       } else if (src[0] == ';') {
         tokens.push(this.token(src.shift(), TokenType.Semicolon))
-      } else {
-        // handling multi character tokens
+      } // HANDLE MULTICHARACTER KEYWORDS, TOKENS, IDENTIFIERS ETC...
+      else {
+        // Handle numeric literals -> Integers
         if (this.isInt(src[0])) {
           let num = ''
           while (src.length > 0 && this.isInt(src[0])) {
             num += src.shift()
           }
 
+          // append new numeric token.
           tokens.push(this.token(num, TokenType.Number))
-        } else if (this.isAlpha(src[0])) {
-          let ident = '' // foo let (identifier)
+        } // Handle Identifier & Keyword Tokens.
+        else if (this.isAlpha(src[0])) {
+          let ident = ''
           while (src.length > 0 && this.isAlpha(src[0])) {
             ident += src.shift()
           }
 
-          // check for reserved keywords
+          // CHECK FOR RESERVED KEYWORDS
           const reserved = KEYWORDS[ident]
-          // if value is not undefined, the identifier is recognized keyword
+          // If value is not undefined then the identifier is
+          // reconized keyword
           if (typeof reserved == 'number') {
             tokens.push(this.token(ident, reserved))
           } else {
+            // Unreconized name must mean user defined symbol.
             tokens.push(this.token(ident, TokenType.Identifier))
           }
         } else if (this.isSkippable(src[0])) {
-          src.shift() // skip the current character
-        } else {
-          Logger.error('Unrecognized character found in source : ', src[0])
+          // Skip uneeded chars.
+          src.shift()
+        } // Handle unreconized characters.
+        // TODO: Impliment better errors and error recovery.
+        else {
+          console.error('Unreconized character found in source: ', src[0].charCodeAt(0), src[0])
           process.exit(1)
         }
       }

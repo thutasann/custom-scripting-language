@@ -27,7 +27,7 @@ const r1 = readline.createInterface({
     if (!input || input.includes('exit')) {
       process.exit(1)
     }
-
+    console.log('input', input)
     const program = parser.produceAST(input)
 
     const interpretedResult = Interpreter.evaluate(program, env)

@@ -34,8 +34,8 @@ export abstract class Interpreter {
       case 'Program':
         return this.evaluateProgram(astNode as IProgram, env)
       default:
-        Logger.error(`This AST Node has not been setup ${astNode}`)
-        process.exit(1)
+        Logger.error('This AST Node has not yet been setup for interpretation.', astNode)
+        process.exit(0)
     }
   }
 

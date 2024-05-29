@@ -61,14 +61,15 @@ export class Parser {
     const isConstant = this.eat().type == TokenType.Const
     const identifier = this.expect(
       TokenType.Identifier,
-      'Expected identifier name following let | const keywords'
+      'Expected identifier name following let | const keywords.'
     ).value
 
     if (this.at().type == TokenType.Semicolon) {
       this.eat() // expect semicolon
       if (isConstant) {
-        throw 'Must assign value to constant expression, no value provided.'
+        throw 'Must assigne value to constant expression. No value provided.'
       }
+
       return {
         kind: 'VarDeclaration',
         identifier,
@@ -76,15 +77,16 @@ export class Parser {
       } as IVarDeclaration
     }
 
-    this.expect(TokenType.Equals, 'Expected equals token following identifier in var declaration. ')
+    this.expect(TokenType.Equals, 'Expected equals token following identifier in var declaration.')
 
     const declaration = {
       kind: 'VarDeclaration',
       value: this.parseExpr(),
+      identifier,
       constant: isConstant,
     } as IVarDeclaration
 
-    this.expect(TokenType.Semicolon, 'Variable declaration statement must end with semicolon.') // force end with semicolon
+    this.expect(TokenType.Semicolon, 'Variable declaration statment must end with semicolon.')
 
     return declaration
   }
@@ -150,7 +152,7 @@ export class Parser {
         return { kind: 'Identifier', symbol: this.eat().value } as IIdentifierExpression
       case TokenType.Number:
         return { kind: 'NumericLiteral', value: parseFloat(this.eat().value) } as INumericLiteral
-      case TokenType.OpenParen:
+      case TokenType.OpenParen: {
         this.eat() // eat open paren
         const value = this.parseExpr()
         this.expect(
@@ -158,6 +160,7 @@ export class Parser {
           'Unexpected token found inside parenthesised expression. Expected closing parenthesis'
         ) // eat close paren
         return value
+      }
       default:
         Logger.error('Unexpected token found during parsing :', this.at())
         process.exit(1)
@@ -166,7 +169,7 @@ export class Parser {
 
   private at(): IToken {
     /** fnc to return tokens index position */
-    return this.tokens[0]
+    return this.tokens[0] as IToken
   }
 
   /** expect fnc */
@@ -176,7 +179,6 @@ export class Parser {
       Logger.error('Parse Error:\n', err, prev, ' - Expecting: ', type)
       process.exit(1)
     }
-
     return prev
   }
 
