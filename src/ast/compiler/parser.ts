@@ -27,6 +27,7 @@ export class Parser {
   public produceAST(sourceCode: string): IProgram {
     const _lexer = new Lexer()
     this.tokens = _lexer.tokenize(sourceCode)
+    console.log('this.tokens', this.tokens)
 
     const program: IProgram = {
       kind: 'Program',
@@ -127,9 +128,10 @@ export class Parser {
    */
   private parseMultiplicitaveExpr(): IExpression {
     let left = this.parsePrimaryExpr()
-    while (this.at().value == '*' || this.at().value == '/' || this.at().value == '%') {
+
+    while (this.at().value == '/' || this.at().value == '*' || this.at().value == '%') {
       const operator = this.eat().value
-      const right = this.parseMultiplicitaveExpr()
+      const right = this.parsePrimaryExpr()
       left = {
         kind: 'BinaryExpr',
         left,
@@ -150,32 +152,41 @@ export class Parser {
     switch (tokenType) {
       case TokenType.Identifier:
         return { kind: 'Identifier', symbol: this.eat().value } as IIdentifierExpression
+
+      // Constants and Numeric Constants
       case TokenType.Number:
-        return { kind: 'NumericLiteral', value: parseFloat(this.eat().value) } as INumericLiteral
+        return {
+          kind: 'NumericLiteral',
+          value: parseFloat(this.eat().value),
+        } as INumericLiteral
+
+      // Grouping Expressions
       case TokenType.OpenParen: {
-        this.eat() // eat open paren
+        this.eat() // eat the opening paren
         const value = this.parseExpr()
         this.expect(
           TokenType.CloseParen,
-          'Unexpected token found inside parenthesised expression. Expected closing parenthesis'
-        ) // eat close paren
+          'Unexpected token found inside parenthesised expression. Expected closing parenthesis.'
+        ) // closing paren
         return value
       }
+
+      // Unidentified Tokens and Invalid Code Reached
       default:
-        Logger.error('Unexpected token found during parsing :', this.at())
+        Logger.error('Unexpected token found during parsing!', this.at())
         process.exit(1)
     }
   }
 
+  /** fnc to return tokens index position */
   private at(): IToken {
-    /** fnc to return tokens index position */
     return this.tokens[0] as IToken
   }
 
   /** expect fnc */
   private expect(type: TokenType, err: any): IToken {
     const prev = this.tokens.shift() as IToken
-    if (!prev || prev.type == type) {
+    if (!prev || prev.type !== type) {
       Logger.error('Parse Error:\n', err, prev, ' - Expecting: ', type)
       process.exit(1)
     }
