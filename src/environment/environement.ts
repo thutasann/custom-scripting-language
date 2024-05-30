@@ -21,10 +21,10 @@ export default class Enviornment {
    * Declare variable
    * @param varname - variable name
    * @param value - runtime value
-   * @param constant - constant check
+   * @param constant - is variable constant or not
    * @returns runtime value
    */
-  public declareVar(varname: string, value: IRunTimeVal, constant?: boolean): IRunTimeVal {
+  public declareVar(varname: string, value: IRunTimeVal, constant: boolean): IRunTimeVal {
     if (this._variables.has(varname)) {
       throw `Cannot declare variable ${varname} as its already defined`
     }

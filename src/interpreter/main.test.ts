@@ -16,22 +16,24 @@ const r1 = readline.createInterface({
 
   // define variables in  environment
   const env = new Enviornment()
-  env.declareVar('x', makeNumber(100))
-  env.declareVar('true', makeBool(true))
-  env.declareVar('false', makeBool(false))
-  env.declareVar('null', makeNull())
+  env.declareVar('true', makeBool(true), true)
+  env.declareVar('false', makeBool(false), true)
+  env.declareVar('null', makeNull(), true)
 
   Logger.info('Repl v0.1')
 
-  r1.question('> ', (input) => {
-    if (!input || input.includes('exit')) {
-      process.exit(1)
-    }
-    const program = parser.produceAST(input)
+  const repeatReadline = async function () {
+    r1.question('> ', async (input) => {
+      if (!input || input.includes('exit')) {
+        process.exit(1)
+      }
+      const program = parser.produceAST(input)
 
-    const interpretedResult = Interpreter.evaluate(program, env)
-    Logger.info('interpretedResult -> ', interpretedResult)
+      const interpretedResult = Interpreter.evaluate(program, env)
+      Logger.info('interpretedResult -> ', interpretedResult)
+      await repeatReadline()
+    })
+  }
 
-    r1.close()
-  })
+  await repeatReadline()
 })()
