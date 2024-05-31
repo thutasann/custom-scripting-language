@@ -9,6 +9,7 @@ import {
   INumericLiteral,
   IIdentifierExpression,
   IVarDeclaration,
+  IAssignmentExpr,
 } from './ast.interface'
 
 /**
@@ -52,7 +53,12 @@ export class Parser {
     }
   }
 
-  /** parse variable declaration
+  /** ## entry function of parse expression */
+  private parseExpr(): IExpression {
+    return this.parseAssignmentExpression()
+  }
+
+  /** ## parse variable declaration
    * @example
    * - LET IDENTIFIER;
    * - ( LET | CONST ) IDENTIFIER = EXPR;
@@ -91,9 +97,19 @@ export class Parser {
     return declaration
   }
 
-  /** ## parse expression */
-  private parseExpr(): IExpression {
-    return this.parseAdditiveExpr()
+  /**
+   * ## parse assignment expression
+   */
+  private parseAssignmentExpression(): IExpression {
+    const left = this.parseAdditiveExpr() // switch this out with objectExpr
+
+    if (this.at().type == TokenType.Equals) {
+      this.eat() // advance past equals
+      const value = this.parseAssignmentExpression()
+      return { value, assigne: left, kind: 'AssignmentExpr' } as IAssignmentExpr
+    }
+
+    return left
   }
 
   /** ### parse additive expression

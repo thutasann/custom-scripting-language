@@ -6,6 +6,7 @@ import {
   IProgram,
   IIdentifierExpression,
   IVarDeclaration,
+  IAssignmentExpr,
 } from '../../ast/compiler/ast.interface'
 import { Logger } from '../../utils/logger'
 import Enviornment from '../../environment/environement'
@@ -30,6 +31,8 @@ export abstract class Interpreter {
         } as INumberVal
       case 'Identifier':
         return this.evaluateIdentifier(astNode as IIdentifierExpression, env)
+      case 'AssignmentExpr':
+        return this.evaluateAssignment(astNode as IAssignmentExpr, env)
       case 'BinaryExpr':
         return this.evaluateBinaryExpr(astNode as IBinaryExpression, env)
       case 'Program':
@@ -117,5 +120,20 @@ export abstract class Interpreter {
     }
 
     return lastEvaluated
+  }
+
+  /**
+   * ## Evaluate Assignment
+   * @param node - assignment expresssion
+   * @param env - environment
+   * @returns
+   */
+  private static evaluateAssignment(node: IAssignmentExpr, env: Enviornment): IRunTimeVal {
+    if (node.assigne.kind !== 'Identifier') {
+      throw `Invalid LHS inaide assignment expr ${JSON.stringify(node.assigne)}`
+    }
+
+    const varname = (node.assigne as IIdentifierExpression).symbol
+    return env.assignVar(varname, this.evaluate(node.value, env))
   }
 }

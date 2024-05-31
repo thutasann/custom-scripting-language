@@ -12,6 +12,7 @@ export type NodeType =
   | 'Program'
   | 'VarDeclaration'
   // EXPRESSIONS
+  | 'AssignmentExpr'
   | 'NumericLiteral'
   | 'Identifier'
   | 'BinaryExpr'
@@ -46,6 +47,20 @@ export interface IVarDeclaration extends IStatement {
 
 /** Expression interface that extends `IStatement` */
 export interface IExpression extends IStatement {}
+
+/**
+ * Assignment Expression
+ * @example
+ * - x = { foo: "bar"}
+ * - left hand side is the assigne
+ * - x.foo = "foo bar"
+ * - x.foo is another complex expression
+ */
+export interface IAssignmentExpr extends IExpression {
+  kind: 'AssignmentExpr'
+  assigne: IExpression
+  value: IExpression
+}
 
 /** Binary Expression Node Type
  * @example
